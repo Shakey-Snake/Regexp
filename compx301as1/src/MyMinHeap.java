@@ -23,32 +23,61 @@ public class MyMinHeap {
 		Heap[++size] = num;
 		int curPos = size;
 		
-		while (Heap[curPos] < Heap(parent(curPos)) {
-			
+		while (Heap[curPos] < Heap[parent(curPos)]) {
+			replace(curPos, parent(curPos));
+			curPos = parent(curPos);
 		}
 	}
 	
 	public void remove() {
 		
+		
 	}
 	
-	public void replace() {
-		
+	public void replace(int pos1, int pos2) {
+		int temp = Heap[pos1];
+		Heap[pos1] = Heap[pos2];
+		Heap[pos2] = temp;
 	}
 	
 	public void peek() {
 			
-		}
+	}
 	
 	public void load() {
 		
 	}
 	
-	public void reheap() {
-		
+	public void reheap(int pos) {
+		if (!isLeaf(pos)) {
+			if (Heap[pos] > Heap[leftChild(pos)] || Heap[pos] > Heap[rightChild(pos)]) {
+				if (Heap[pos] > Heap[leftChild(pos)]) {
+					
+				}
+				else {
+					
+				}
+			}
+		}
 	}
 	
 	private int parent(int pos) {
-		
+		return pos / 2;
 	}
+	
+	private int leftChild(int pos) {
+		return pos * 2;
+	}
+	
+	private int rightChild(int pos) {
+		return (pos * 2) + 1;
+	}
+	
+	private boolean isLeaf(int pos)
+    {
+        if (pos >= (size / 2) && pos <= size) {
+            return true;
+        }
+        return false;
+    }
 }
