@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class MyMinHeap {
 	
 	private int maxSize;
@@ -22,16 +23,19 @@ public class MyMinHeap {
 		}
 		Heap[++size] = num;
 		int curPos = size;
-		
+    
+public void insert() {
 		while (Heap[curPos] < Heap[parent(curPos)]) {
 			replace(curPos, parent(curPos));
 			curPos = parent(curPos);
 		}
 	}
 	
+	//Removes the element from the MinHeap and returns the minimum element
 	public void remove() {
-		
-		
+		int popped = Heap[FRONT];
+		Heap[FRONT] = Heap[size--];
+		return popped;
 	}
 	
 	public void replace(int pos1, int pos2) {
