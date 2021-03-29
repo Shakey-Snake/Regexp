@@ -4,8 +4,10 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MyMinHeap {
-
+public class MyMinHeap {	
+	
+	private static final int FRONT = 1;
+	
 	public static void main(String[] args) throws IOException {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
@@ -14,12 +16,18 @@ public class MyMinHeap {
 
 	}
 	
+	
+	
 	public void insert() {
 		
 	}
 	
+	//Removes the element from the MinHeap and returns the minimum element
 	public void remove() {
+		int popped = Heap[FRONT];
+		Heap[FRONT] = Heap[size--];
 		
+		return popped;
 	}
 	
 	public void replace() {
