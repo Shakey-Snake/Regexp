@@ -24,7 +24,6 @@ public class MyMinHeap {
 		Heap[++size] = num;
 		int curPos = size;
     
-public void insert() {
 		while (Heap[curPos] < Heap[parent(curPos)]) {
 			replace(curPos, parent(curPos));
 			curPos = parent(curPos);
@@ -32,9 +31,9 @@ public void insert() {
 	}
 	
 	//Removes the element from the MinHeap and returns the minimum element
-	public void remove() {
-		int popped = Heap[FRONT];
-		Heap[FRONT] = Heap[size--];
+	public int remove() {
+		int popped = Heap[0];
+		Heap[0] = Heap[size--];
 		return popped;
 	}
 	
@@ -48,19 +47,29 @@ public void insert() {
 			
 	}
 	
-	public void load() {
-		
+	//add to current stack and then reheap
+	public void load(int[] impHeap) {
+		if (impHeap.length > maxSize) {
+			System.out.println("too large");
+		}
+		else {
+			Heap = impHeap;
+			size = Heap.length-1;
+		}
+		this.print();
+		reheap(0);
 	}
 	
+	//start from the beginning of the stack and go to end of stack 
 	public void reheap(int pos) {
-		if (!isLeaf(pos)) {
-			if (Heap[pos] > Heap[leftChild(pos)] || Heap[pos] > Heap[rightChild(pos)]) {
-				if (Heap[pos] > Heap[leftChild(pos)]) {
-					
-				}
-				else {
-					
-				}
+		if(!isLeaf(pos)) {
+			if (Heap[leftChild(pos)] < Heap[rightChild(pos)]) {
+				replace(leftChild(pos), pos);
+				reheap(leftChild(pos));
+			}
+			else {
+				replace(rightChild(pos), pos);
+				reheap(rightChild(pos));
 			}
 		}
 	}
@@ -84,4 +93,25 @@ public void insert() {
         }
         return false;
     }
+	
+	public void print() {
+		System.out.println("");
+		System.out.print("Heap:");
+		for(int i = 0; i < Heap.length; i++) {
+			System.out.print(Heap[i]+ ", ");
+		}
+	}
+	
+	public static void main(String[] arg) {
+		int[] arr = {10,3,17,12,16,14,1,0};
+		MyMinHeap minHeap = new MyMinHeap(10);
+		minHeap.load(arr);
+		minHeap.print();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
