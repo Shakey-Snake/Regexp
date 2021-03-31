@@ -1,87 +1,118 @@
-
-import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
-
-public class MyMinHeap {
+import java.util.Arrays;
+public class MyMinHeap<T extends Comparable<T>> {
 	
 	private int maxSize;
 	private int size;
-	private int[] Heap;
+	private T[] Heap;
 
 	public MyMinHeap(int maxSize) {
 		this.maxSize = maxSize;
-		size = 0;
-		Heap = new int[this.maxSize + 1];
 	}
 	
-	public void insert(int num) {
+	public void insert(T obj) {
 		if (size >= maxSize) {
 			return;
 		}
-		Heap[++size] = num;
-		int curPos = size;
-    
-public void insert() {
-		while (Heap[curPos] < Heap[parent(curPos)]) {
-			replace(curPos, parent(curPos));
-			curPos = parent(curPos);
+		@SuppressWarnings("unchecked")
+		T[] newHeap = (T[]) new Comparable[size + 1];
+		for (int i = 0; i < Heap.length; i++) {
+			newHeap[i] = Heap[i];
 		}
+		newHeap[++size-1] = obj;
+		Heap = newHeap;
+		reheap();
 	}
 	
 	//Removes the element from the MinHeap and returns the minimum element
-	public void remove() {
-		int popped = Heap[FRONT];
-		Heap[FRONT] = Heap[size--];
+	public T remove() {
+		T popped = Heap[0];
+		Heap[0] = Heap[size--];
+		reheap();
 		return popped;
 	}
 	
 	public void replace(int pos1, int pos2) {
-		int temp = Heap[pos1];
+		T temp = Heap[pos1];
 		Heap[pos1] = Heap[pos2];
 		Heap[pos2] = temp;
+		
+		System.out.println(Heap[pos1] + " and "+ Heap[pos2]);
 	}
 	
 	public void peek() {
 			
 	}
 	
-	public void load() {
-		
-	}
-	
-	public void reheap(int pos) {
-		if (!isLeaf(pos)) {
-			if (Heap[pos] > Heap[leftChild(pos)] || Heap[pos] > Heap[rightChild(pos)]) {
-				if (Heap[pos] > Heap[leftChild(pos)]) {
-					
-				}
-				else {
-					
-				}
-			}
+	//add to current stack and then 
+	public void load(Comparable[] arr) {
+		if (arr.length > maxSize) {
+			System.out.println("too large");
 		}
+		else {
+			Heap = (T[]) arr;
+			size = Heap.length;
+		}
+		this.print();
+		reheap();
 	}
 	
-	private int parent(int pos) {
-		return pos / 2;
+	public void reheap () {
+		for (int i = (size/2)-1; i >= 0; i--) {
+            reheap(Heap, i);
+        }
 	}
+	
+	//find smallest and make that the root, then reheap
+	private void reheap(T[] h, int s) {
+		int smallest = s;
+		
+		if (leftChild(s) < size && (h[leftChild(s)].compareTo(h[smallest]) < 0))
+            smallest = leftChild(s);
+		
+		if (rightChild(s) < size && (h[rightChild(s)].compareTo(h[smallest]) < 0))
+            smallest = rightChild(s);
+		
+		if (smallest != s) {
+			replace(s, smallest);
+            reheap(h, smallest);
+        }
+	}
+	
+	
 	
 	private int leftChild(int pos) {
-		return pos * 2;
+		return 2 * pos + 1;
 	}
 	
 	private int rightChild(int pos) {
-		return (pos * 2) + 1;
+		return 2 * pos + 2;
 	}
 	
-	private boolean isLeaf(int pos)
-    {
-        if (pos >= (size / 2) && pos <= size) {
-            return true;
-        }
-        return false;
-    }
+	public void print() {
+		System.out.println("");
+		System.out.print("Heap:");
+		for(int i = 0; i < Heap.length; i++) {
+			System.out.print(Heap[i]+ ", ");
+		}
+	}
+	
+	public static void main(String[] arg) {
+		Comparable[] arr = {"aa", "x","a", "x", "z", "l", "als", "alsa"};
+		MyMinHeap minHeap = new MyMinHeap(20);
+		minHeap.load(arr);
+		//minHeap.insert("2");
+		//minHeap.insert("23");
+		//minHeap.insert("96");
+		//minHeap.insert("4");
+		//minHeap.print();
+		//minHeap.reheap();
+		minHeap.print();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
