@@ -57,36 +57,46 @@ public class MyMinHeap<T extends Comparable<T>> {
 		reheap();
 	}
 	
-	public void reheap () {
-		for (int i = (size/2)-1; i >= 0; i--) {
-            reheap(Heap, i);
-        }
+	public void reheap() {
+		for(int i = 0; i < size; i++)
+			reheap(i);
+	}
+
+	private void reheap(int x) {
+		if(!isLeaf(x)) {
+			if((Heap[x].compareTo(Heap[leftChild(x)]) > 0) || (Heap[x].compareTo(Heap[rightChild(x)]) > 0)) {
+				if(Heap[leftChild(x)].compareTo(Heap[rightChild(x)]) < 0) {
+					replace(x, leftChild(x));
+					reheap(leftChild(x));
+				}
+				else {
+					replace(x, rightChild(x));
+					reheap(rightChild(x));
+				}
+			}
+		}
 	}
 	
-	//find smallest and make that the root, then reheap
-	private void reheap(T[] h, int s) {
-		int smallest = s;
-		
-		if (leftChild(s) < size && (h[leftChild(s)].compareTo(h[smallest]) < 0))
-            smallest = leftChild(s);
-		
-		if (rightChild(s) < size && (h[rightChild(s)].compareTo(h[smallest]) < 0))
-            smallest = rightChild(s);
-		
-		if (smallest != s) {
-			replace(s, smallest);
-            reheap(h, smallest);
+	private boolean isLeaf(int pos)
+    {
+        if (pos >= (size / 2) && pos <= size) {
+            return true;
         }
-	}
-	
-	
+        return false;
+    }
 	
 	private int leftChild(int pos) {
-		return 2 * pos + 1;
+		if (pos == 0) {
+			pos = 1;
+		}
+		return 2 * pos;
 	}
 	
 	private int rightChild(int pos) {
-		return 2 * pos + 2;
+		if (pos == 0) {
+			pos = 1;
+		}
+		return 2 * pos + 1;
 	}
 	
 	public void print() {
@@ -98,7 +108,7 @@ public class MyMinHeap<T extends Comparable<T>> {
 	}
 	
 	public static void main(String[] arg) {
-		Comparable[] arr = {"aa", "x","a", "x", "z", "l", "als", "alsa"};
+		Comparable[] arr = {"ba", "x","a", "x", "z", "l", "als", "alsa"};
 		MyMinHeap minHeap = new MyMinHeap(20);
 		minHeap.load(arr);
 		//minHeap.insert("2");
