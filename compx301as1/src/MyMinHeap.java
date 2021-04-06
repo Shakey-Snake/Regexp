@@ -5,7 +5,8 @@ public class MyMinHeap<T extends Comparable<T>> {
 	private int maxSize;
 	private int size;
 	private T[] Heap;
-
+	private int arrHalf;
+	
 	public MyMinHeap(int maxSize) {
 		this.maxSize = maxSize;
 	}
@@ -14,7 +15,6 @@ public class MyMinHeap<T extends Comparable<T>> {
 		if (size >= maxSize) {
 			return;
 		}
-		@SuppressWarnings("unchecked")
 		T[] newHeap = (T[]) new Comparable[size + 1];
 		for (int i = 0; i < Heap.length; i++) {
 			newHeap[i] = Heap[i];
@@ -57,29 +57,33 @@ public class MyMinHeap<T extends Comparable<T>> {
 		reheap();
 	}
 	
-	public void reheap () {
-		for (int i = (size/2)-1; i >= 0; i--) {
-            reheap(Heap, i);
-        }
+	public void reheap() {
+		for (int i = (size/2); i >= 0; i--) { 
+			reheap(i); 
+		} 
 	}
-	
-	//find smallest and make that the root, then reheap
-	private void reheap(T[] h, int s) {
+
+	private void reheap(int s) {
 		int smallest = s;
 		
-		if (leftChild(s) < size && (h[leftChild(s)].compareTo(h[smallest]) < 0))
+		if (leftChild(s) < size && (Heap[leftChild(s)].compareTo(Heap[smallest]) < 0))
             smallest = leftChild(s);
 		
-		if (rightChild(s) < size && (h[rightChild(s)].compareTo(h[smallest]) < 0))
+		if (rightChild(s) < size && (Heap[rightChild(s)].compareTo(Heap[smallest]) < 0))
             smallest = rightChild(s);
 		
 		if (smallest != s) {
 			replace(s, smallest);
-            reheap(h, smallest);
-        }
+            reheap(smallest);
+		}
 	}
 	
-	
+	private boolean isLeaf(int pos) {
+        if (pos >= (size / 2) && pos <= size) {
+            return true;
+        }
+        return false;
+    }
 	
 	private int leftChild(int pos) {
 		return 2 * pos + 1;
@@ -98,7 +102,7 @@ public class MyMinHeap<T extends Comparable<T>> {
 	}
 	
 	public static void main(String[] arg) {
-		Comparable[] arr = {"aa", "x","a", "x", "z", "l", "als", "alsa"};
+		Comparable[] arr = {"ba","a", "x", "z", "alss", "als", "l"};
 		MyMinHeap minHeap = new MyMinHeap(20);
 		minHeap.load(arr);
 		//minHeap.insert("2");
