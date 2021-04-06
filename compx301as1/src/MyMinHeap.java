@@ -5,7 +5,8 @@ public class MyMinHeap<T extends Comparable<T>> {
 	private int maxSize;
 	private int size;
 	private T[] Heap;
-
+	private int arrHalf;
+	
 	public MyMinHeap(int maxSize) {
 		this.maxSize = maxSize;
 	}
@@ -14,7 +15,6 @@ public class MyMinHeap<T extends Comparable<T>> {
 		if (size >= maxSize) {
 			return;
 		}
-		@SuppressWarnings("unchecked")
 		T[] newHeap = (T[]) new Comparable[size + 1];
 		for (int i = 0; i < Heap.length; i++) {
 			newHeap[i] = Heap[i];
@@ -58,27 +58,27 @@ public class MyMinHeap<T extends Comparable<T>> {
 	}
 	
 	public void reheap() {
-		for(int i = 0; i < size; i++)
-			reheap(i);
+		for (int i = (size/2); i >= 0; i--) { 
+			reheap(i); 
+		} 
 	}
 
-	private void reheap(int x) {
-		if(!isLeaf(x)) {
-			if((Heap[x].compareTo(Heap[leftChild(x)]) > 0) || (Heap[x].compareTo(Heap[rightChild(x)]) > 0)) {
-				if(Heap[leftChild(x)].compareTo(Heap[rightChild(x)]) < 0) {
-					replace(x, leftChild(x));
-					reheap(leftChild(x));
-				}
-				else {
-					replace(x, rightChild(x));
-					reheap(rightChild(x));
-				}
-			}
+	private void reheap(int s) {
+		int smallest = s;
+		
+		if (leftChild(s) < size && (Heap[leftChild(s)].compareTo(Heap[smallest]) < 0))
+            smallest = leftChild(s);
+		
+		if (rightChild(s) < size && (Heap[rightChild(s)].compareTo(Heap[smallest]) < 0))
+            smallest = rightChild(s);
+		
+		if (smallest != s) {
+			replace(s, smallest);
+            reheap(smallest);
 		}
 	}
 	
-	private boolean isLeaf(int pos)
-    {
+	private boolean isLeaf(int pos) {
         if (pos >= (size / 2) && pos <= size) {
             return true;
         }
@@ -86,17 +86,11 @@ public class MyMinHeap<T extends Comparable<T>> {
     }
 	
 	private int leftChild(int pos) {
-		if (pos == 0) {
-			pos = 1;
-		}
-		return 2 * pos;
+		return 2 * pos + 1;
 	}
 	
 	private int rightChild(int pos) {
-		if (pos == 0) {
-			pos = 1;
-		}
-		return 2 * pos + 1;
+		return 2 * pos + 2;
 	}
 	
 	public void print() {
@@ -108,7 +102,7 @@ public class MyMinHeap<T extends Comparable<T>> {
 	}
 	
 	public static void main(String[] arg) {
-		Comparable[] arr = {"ba", "x","a", "x", "z", "l", "als", "alsa"};
+		Comparable[] arr = {"ba","a", "x", "z", "alss", "als", "l"};
 		MyMinHeap minHeap = new MyMinHeap(20);
 		minHeap.load(arr);
 		//minHeap.insert("2");
