@@ -8,6 +8,8 @@ public class CreateRuns {
 	private String[] linearr;
 	private String[] arr = new String[runSize];
 	private PrintStream printStream = new PrintStream(System.out);
+	private int currentRun = 0;
+	
 	private int i = 0;
 	MyMinHeap run = new MyMinHeap(runSize);
 	
@@ -21,8 +23,6 @@ public class CreateRuns {
 		
 		CreateRuns cr = new CreateRuns();
 		
-		
-		
 		cr.run();
 	}
 	
@@ -32,28 +32,40 @@ public class CreateRuns {
 
 	        while((line = br.readLine()) != null){ 
 	        	linearr = line.split(" ");
-	        	System.out.println("---------------");
+	        	/*System.out.println("---------------");
 	        	for (int j = 0; j < linearr.length; j++) {
 	        		System.out.println(linearr[j]);
-	        	}
-	        	
+	        	}*/
 	        	insertion();
-	        	System.out.println("fin");
 	        	//splitting the arrays if the line wont fit into the current runsize.
 	        }
-	        printStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//not quite done, still need to check if there are still words remaining.
+		String[] temparr = arr;
+		int count = 0;
+        if(arr.length > 0) {
+        	for (int j = 0; j < arr.length; j++) {
+        		if(arr[j] == null) {
+        			break;
+        		}
+        		count++;
+        	}
+        	arr = new String[count];
+        	for (int j = 0; j < count; j++) {
+        		arr[j] = temparr[j];
+        	}
+        	go();
+		}
+        
+        printStream.close();
 	}
+	
 	
 	private void insertion(){
 		if(linearr.length > runSize - i) {
-    		System.out.println("split");
-    		System.out.println(linearr.length + " " + (runSize - i));
     		String[] a = new String[runSize - i];
     		String[] b = new String[linearr.length - (runSize - i)];
     		
@@ -65,9 +77,6 @@ public class CreateRuns {
     			b[j] = linearr[j + runSize - i];
     		}
     		
-    		//System.out.println(runSize + " " + " " + i + " " + (runSize - i));
-    		//System.out.println("b values");
-    		
     		for(int j = 0; j < a.length; j++){
     			arr[i] = a[j]; 
     			i++;
@@ -77,7 +86,6 @@ public class CreateRuns {
     		
     	}
     	else {
-    		System.out.println("normal");
     		for(int j = 0; j < linearr.length; j++){
     			arr[i] = linearr[j]; 
     			i++;
@@ -90,29 +98,23 @@ public class CreateRuns {
 		}
 	}
 	
+	//outputs the array
 	private void go() {
 		//output array
-    	System.out.println("send:");
     	run.load(arr);
     	arr = (String[]) run.copyarr();
-    	
     	for(int j = 0; j < arr.length; j++) {
     		printStream.print(arr[j]);
     	}
-    	
+    	printStream.print("(R" + currentRun + ")");
+    	currentRun++;
     	printStream.flush();
+    	System.out.println();
     	arr = new String[runSize];
     	i = 0;
     	//check if the line arr has gone through the whole line
     	if(linearr != null) {
-    		System.out.println("ins");
     		insertion();
-    	}else {
-    		System.out.println("no ins");
     	}
 	}
-	
-	
-	//check line isnt empty, if it is, go to next line.
-	//if run size is too big, output it and create another heap.
 }
