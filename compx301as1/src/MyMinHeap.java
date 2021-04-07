@@ -1,12 +1,8 @@
-import java.io.IOException;
-import java.util.Arrays;
 public class MyMinHeap<T extends Comparable<T>> {
 	
 	private int maxSize;
 	private int size;
 	private T[] Heap;
-	private int arrHalf;
-	
 	public MyMinHeap(int maxSize) {
 		this.maxSize = maxSize;
 	}
@@ -36,8 +32,6 @@ public class MyMinHeap<T extends Comparable<T>> {
 		T temp = Heap[pos1];
 		Heap[pos1] = Heap[pos2];
 		Heap[pos2] = temp;
-		
-		System.out.println(Heap[pos1] + " and "+ Heap[pos2]);
 	}
 	
 	public void peek() {
@@ -53,7 +47,6 @@ public class MyMinHeap<T extends Comparable<T>> {
 			Heap = (T[]) arr;
 			size = Heap.length;
 		}
-		this.print();
 		reheap();
 	}
 	
@@ -78,13 +71,6 @@ public class MyMinHeap<T extends Comparable<T>> {
 		}
 	}
 	
-	private boolean isLeaf(int pos) {
-        if (pos >= (size / 2) && pos <= size) {
-            return true;
-        }
-        return false;
-    }
-	
 	private int leftChild(int pos) {
 		return 2 * pos + 1;
 	}
@@ -93,7 +79,7 @@ public class MyMinHeap<T extends Comparable<T>> {
 		return 2 * pos + 2;
 	}
 	
-	public void print() {
+	private void print() {
 		System.out.println("");
 		System.out.print("Heap:");
 		for(int i = 0; i < Heap.length; i++) {
@@ -101,7 +87,11 @@ public class MyMinHeap<T extends Comparable<T>> {
 		}
 	}
 	
-	public static void main(String[] arg) {
+	public T[] copyarr() {
+		return Heap;
+	}
+	
+	/*public static void main(String[] arg) {
 		Comparable[] arr = {"ba","a", "x", "z", "alss", "als", "l"};
 		MyMinHeap minHeap = new MyMinHeap(20);
 		minHeap.load(arr);
@@ -118,5 +108,5 @@ public class MyMinHeap<T extends Comparable<T>> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
