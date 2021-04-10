@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Scanner;
 
 public class CreateRuns {
 	
@@ -22,7 +21,6 @@ public class CreateRuns {
 		}
 		
 		CreateRuns cr = new CreateRuns();
-		
 		cr.run();
 	}
 	
@@ -31,11 +29,11 @@ public class CreateRuns {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	        while((line = br.readLine()) != null){ 
+	        	if(line.isEmpty()) {
+	        		while(line.isEmpty())
+	        			line = br.readLine();
+	        	}
 	        	linearr = line.split(" ");
-	        	/*System.out.println("---------------");
-	        	for (int j = 0; j < linearr.length; j++) {
-	        		System.out.println(linearr[j]);
-	        	}*/
 	        	insertion();
 	        	//splitting the arrays if the line wont fit into the current runsize.
 	        }
@@ -104,7 +102,7 @@ public class CreateRuns {
     	run.load(arr);
     	arr = (String[]) run.copyarr();
     	for(int j = 0; j < arr.length; j++) {
-    		printStream.print(arr[j]);
+    		printStream.print(arr[j] + " ");
     	}
     	printStream.print("(R" + currentRun + ")");
     	currentRun++;
