@@ -104,7 +104,6 @@ public class CreateRuns {
     	for(int j = 0; j < arr.length; j++) {
     		printStream.print(arr[j] + " ");
     	}
-    	printStream.print("(R" + currentRun + ")");
     	currentRun++;
     	printStream.flush();
     	System.out.println();
