@@ -8,6 +8,7 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 
+=======
 
 public class DistributeRuns {
 	
@@ -29,7 +30,6 @@ public class DistributeRuns {
 		bw.write(new InputStreamReader(System.in).toString());
 		bw.close();
 	}
-	
 }
 
 //constructor takes a positive integer greater than 1
